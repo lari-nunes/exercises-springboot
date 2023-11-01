@@ -12,8 +12,11 @@ public class AulaJavaApplication {
 
 		System.out.println("TESTE");
 
-		Produto produto = new Produto(1, "Comida brasileira", 500.00);
+		Produto produto = new Produto();
 
-		System.out.println("O código do produto é " + produto.getCodigo() + ", descrição é: " + produto.getDescricao() + " e o valor é de " + produto.getValor());
+		System.out.println("O código do produto é " + produto.getCodigo() + ", nome é: " + produto.getNome() + " e o valor é de " + produto.getValor());
+
+
 	}
+
 }

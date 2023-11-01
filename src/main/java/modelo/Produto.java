@@ -1,30 +1,27 @@
 package modelo;
 
 public class Produto {
-    private Integer codigo;
-    private String descricao;
+    private Long codigo;
+    private String nome;
     private Double valor;
 
-    public Produto(Integer codigo, String descricao, Double valor) {
-        this.codigo = codigo;
-        this.descricao = descricao;
-        this.valor = valor;
+    public Produto() {
     }
 
-    public Integer getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Integer codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getNome() {
+        return nome;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Double getValor() {

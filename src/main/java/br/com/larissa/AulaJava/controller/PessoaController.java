@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/pessoas")
@@ -24,14 +25,29 @@ public class PessoaController {
         return pessoas;
     }
 
-//    @GetMapping("/{cpf}")
-//    public ResponseEntity<Pessoa> lissPessoasCod(@PathVariable(value = "cpf") String cpf){}
+    @GetMapping("/{cpf}")
+    public ResponseEntity<Object> listarPorCPF(@PathVariable(value = "cpf") String cpf){
+        //  usa-se o stream para realizar operações de filtragem e busca a partir dessa lista.
+        Optional<Pessoa> pessoaEncontrada = pessoas.stream().filter(p -> p.getCpf().equals(cpf)).findFirst();
+        if(pessoaEncontrada.isPresent()){
+            return ResponseEntity.ok(pessoaEncontrada.get());
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse CPF não existe!");
+        }
+    }
     @PostMapping()
-    public ResponseEntity<Pessoa> atualPessoas(@RequestBody Pessoa pessoa){
-        //pessoa = new Pessoa();
+    public ResponseEntity<Object> atualPessoas(@RequestBody Pessoa pessoa){
 
-        pessoa.setId((idPessoa++));
-        pessoas.add(pessoa);
+        // verifica se o CPF da Pessoa atual (p.getCpf()) na lista é igual ao CPF da Pessoa que está sendo adicionada (pessoa.getCpf()).
+        boolean cpfExistente = pessoas.stream().anyMatch(p -> p.getCpf().equals(pessoa.getCpf()));
+
+        if (cpfExistente) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Este CPF já está cadastrado. Por favor, forneça um CPF diferente.");
+        } else {
+            // Se o CPF não existe, continue com a criação da pessoa
+            pessoa.setId(idPessoa++); // vai gerar id automaticamente a cada usuário criado
+            pessoas.add(pessoa);
+        }
 
         for(Endereco end : pessoa.getEnderecos()){
             end.setId(idEndereco++);
@@ -41,12 +57,10 @@ public class PessoaController {
     }
 
     @PostMapping("/endereco")
-    public ResponseEntity<Endereco> atualEndereco(@RequestBody Endereco endereco){
+    public ResponseEntity<Object> atualEndereco(@RequestBody Endereco endereco){
         endereco.setId((idEndereco++));
         enderecos.add(endereco);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(endereco);
     }
-
-
 }

@@ -1,5 +1,4 @@
 package br.com.larissa.AulaJava.modelo;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -7,16 +6,12 @@ public class Pessoa {
 
     private Long id;
     private String cpf;
-private String nome;
+    private String nome;
     private String sexo;
     private LocalDate dataNascimento;
     private List<Endereco> enderecos;
 
     public Pessoa() {
-//        this.id = id;
-//        this.nome = nome;
-//        this.sexo = sexo;
-//        this.dataNascimento = dataNascimento;
     }
 
     public Long getId() {
